@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="../../_css/styles.css">
+
+    <title>url</title>
+</head>
+
+<body>
+
+
+    <nav class="navbar">
+        <a href="../../index.html">Back to homepage</a>
+        <a class="nav-page nav-active">url</a>
+    </nav>
+
+
+
+
+
+
+
+    <h1>Routing</h1>
+
+    <div class="text-section">
+        <p>The URL module splits up a web address into readable parts.</p>
+    </div>
+
+
+
+    <h2>url.parse</h2>
+
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>Parse an address with the <span class="code">url.parse()</span> method.</p>
+            <p>It returns a URL object with each part of the address as properties.</p>
+            <p><span class="code">true</span> is needed to parse the query string (<span class="text-object">?id=1</span>) into an Object.</p>
+            <p>This displays all Objects of <span class="code">url</span>.</p>
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">const http = require('http')
+const url = require('url')
+
+// SERVER
+const server = http.createServer((req, res) => {
+  <span class="code-highlight">console.log(url.parse(req.url, true)) </span>    
+})
+
+server.listen(8000, '127.0.0.1', () => {
+  console.log('Listening to requests on port 8000')
+})</span></pre>
+        </div>
+    </section>
+
+
+    <h3>Node.js response (homepage)</h3>
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>The following displays in the Node.js terminal when the file is run for the default URL at <span class="text-object">127.0.0.1:8000/</span></p>
+            <p>Since there's no query string, the <span class="code">query</span> Object is empty.</p>
+            <p>Since you're visiting the homepage, the <span class="code">pathname</span> is <span class="code">/</span>.</p>
+
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">Url {
+  protocol: null,
+  slashes: null,
+  auth: null,
+  host: null,
+  port: null,
+  hostname: null,
+  hash: null,
+  search: null,
+  query: [Object: null prototype] {},
+  pathname: '/',
+  path: '/',
+  href: '/'
+}</span></pre>
+        </div>
+    </section>
+
+
+
+
+    <h3>Node.js response (page name with query string)</h3>
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>The following displays in the Node.js terminal when the file is run for the URL at <span class="text-object">127.0.0.1:8000/overview?id=1</span></p>
+            <p>The <span class="code">query</span> Object shows the ID# is <span class="code">1</span>.</p>
+            <p>The <span class="code">pathname</span> is the page name.</p>
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">Url {
+  protocol: null,
+  slashes: null,
+  auth: null,
+  host: null,
+  port: null,
+  hostname: null,
+  hash: null,
+  search: '?id=1',
+  <span class="code-highlight">query: [Object: null prototype] { id: '1' },
+  pathname: '/overview'</span>,
+  path: '/overview?id=1',
+  href: '/overview?id=1'
+}</span></pre>
+        </div>
+    </section>
+
+
+
+    <h2>Display only the querystring value</h2>
+
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>First, store the result of <span class="code">url.parse(req.url, true)</span> into a variable.</p>
+            <p>The query property returns an Object.</p>
+            <p>To view the querystring value, you must then add the name of the querstring after <span class="code">query.</span>.</p>
+            <p>In this example, it is <span class="code">queryVal.query.id</span>.</p>
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">const http = require('http')
+const url = require('url')
+
+// SERVER
+const server = http.createServer((req, res) => {
+  <span class="code-highlight">const queryVal = url.parse(req.url, true)
+  console.log(queryVal)
+  console.log(`queryVal is: ${queryVal.query.id}`) </span>
+})
+
+server.listen(8000, '127.0.0.1', () => {
+  console.log('Listening to requests on port 8000')
+})</span></pre>
+        </div>
+    </section>
+
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>This displays the folowing.</p>
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">Url {
+  protocol: null,
+  slashes: null,
+  auth: null,
+  host: null,
+  port: null,
+  hostname: null,
+  hash: null,
+  search: '?id=1',
+  query: [Object: null prototype] { id: '<span class="code-highlight">1</span>' },
+  pathname: '/overview',
+  path: '/overview?id=1',
+  href: '/overview?id=1'
+}
+<span class="code-highlight">queryVal is: 1</span>
+</span></pre>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h2>Display only the pathname</h2>
+
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>First, store the result of <span class="code">url.parse(req.url, true)</span> into a variable.</p>
+            <p>Then, add <span class="code">.pathname</span> after the variable.</p>
+            <p>In this example, it is <span class="code">queryVal.pathname</span>.</p>
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">const http = require('http')
+const url = require('url')
+
+// SERVER
+const server = http.createServer((req, res) => {
+  <span class="code-highlight">const queryVal = url.parse(req.url, true)
+  console.log(queryVal)
+  console.log(`pathname is: ${queryVal.pathname}`)</span>
+})
+
+server.listen(8000, '127.0.0.1', () => {
+  console.log('Listening to requests on port 8000')
+})</span></pre>
+        </div>
+    </section>
+
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>This displays the folowing.</p>
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">Url {
+  protocol: null,
+  slashes: null,
+  auth: null,
+  host: null,
+  port: null,
+  hostname: null,
+  hash: null,
+  search: '?id=1',
+  query: [Object: null prototype] { id: '1' },
+  <span class="code-highlight">pathname: '/overview'</span>,
+  path: '/overview?id=1',
+  href: '/overview?id=1'
+}
+<span class="code-highlight">pathname is: /overview</span>
+</span></pre>
+        </div>
+    </section>
+
+
+
+
+    <h1>Destructure</h1>
+
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>This uses destructuring on <span class="code">url.parse(req.url, true)</span>.</p>
+            <p>Variables are created with the same name as the properties.</p>
+            <p>The results are then displayed.</p>
+            <p>Visit the URL at the <span class="text-object">127.0.0.1:8000/overview?id=1</span>.</p>
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">const http = require('http')
+const url = require('url')
+
+// SERVER
+const server = http.createServer((req, res) => {
+  <span class="code-highlight">const { query, pathname } = url.parse(req.url, true)
+
+    console.log(query)
+    console.log(pathname)</span>
+})
+
+server.listen(8000, '127.0.0.1', () => {
+  console.log('Listening to requests on port 8000')
+})</span></pre>
+        </div>
+    </section>
+
+    <section class="code-section-container">
+        <div class="code-text-section">
+            <p>This displays the folowing.</p>
+        </div>
+        <div class="code-block-section-w60">
+            <pre class="example"><span class="code-nodejs">[Object: null prototype] { id: '1' }
+/overview</span></pre>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

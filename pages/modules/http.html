@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="../../_css/styles.css">
+
+  <title>http</title>
+</head>
+
+<body>
+
+
+  <nav class="navbar">
+    <a href="../../index.html">Back to homepage</a>
+    <a class="nav-page nav-active">http</a>
+  </nav>
+
+
+
+
+  <h1>http Module</h1>
+  <div class="text-section">
+    <p>The <span class="code">http</span> module allows you to build an http server.</p>
+
+    <ul>
+      <li><a href="https://nodejs.org/dist/latest-v16.x/docs/api/http.html" target="_blank">http module
+          documentation</a>
+      </li>
+    </ul>
+  </div>
+
+
+
+
+
+  <h2>Store module in a variable</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This stores the <span class="code">http</span> module into a variable. This allows it to be easily accessed.
+      </p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre
+        class="example"><span class="code-nodejs">const <span class="code-highlight">http</span> = require('http');</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+  <h1>Creating a server</h1>
+  <h2>The createServer() method</h2>
+
+  <div class="text-section">
+    <p> <span class="code">createServer</span> is a method of the <span class="code">http</span> module.</p>
+
+    <ul>
+      <li><a href="https://nodejs.org/docs/latest/api/http.html#httpcreateserveroptions-requestlistener"
+          target="_blank">createServer() method documentation</a>
+      </li>
+    </ul>
+  </div>
+
+
+
+  <div class="text-section">
+    <p> <span class="code">createSever</span> takes a callback function that is fired each time a request is made to the
+      server.</p>
+    <p>This callback function has access to two Objects.</p>
+    <ul>
+      <li>request object (<span class="code">res</span>): This receives a request of type <span
+          class="code">IncomingMessage</span></li>
+      <li>response object (<span class="code">res</span>): This is used to return a response to who sent the request
+      </li>
+    </ul>
+  </div>
+
+
+  <h2>2 ways to create a server</h2>
+
+  <h3>Option #1: Anonymous Function</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This passes the function whenever a request is made to the server.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const server = http.createServer(<span class="code-highlight">function</span> (req, res) {
+  <span class="code-comment">// send back request to the client </span>
+  res.end('Hello from the server');
+});</span></pre>
+    </div>
+  </section>
+
+
+
+
+  <h3>Option #2: Arrow Function</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This works the same way but is written using an Arrow Function.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const server = http.createServer((req, res) <span class="code-highlight">=></span> {
+  <span class="code-comment">// send back request to the client </span>
+  res.end('Hello from the server');
+});</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+  <h2>Listen to response with listen()</h2>
+  <div class="text-section">
+    <p> <span class="code">server.listen()</span> uses the <span class="code">server</span> OBJECT and <span
+        class="code">listen</span> METHOD to listen on a port after starting the HTTP server.</p>
+
+    <ul>
+      <li><a href="https://nodejs.org/api/http.html#serverlisten" target="_blank">server.listen() method
+          documentation</a>
+      </li>
+    </ul>
+  </div>
+
+
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This gets access to two Objects.</p>
+      <ul>
+        <li>port</li>
+        <li>host (optional)</li>
+      </ul>
+      <p>This example listens on port 3000 at localhost.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">server.listen(3000);</span></pre>
+    </div>
+  </section>
+
+
+  <h3>Full code example</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>Full code example from all steps above.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+
+const server = http.createServer((req, res) => {
+  console.log(req);
+});
+        
+server.listen(3000);</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <h1>Run the server</h1>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>Run the file to start the server</p>
+      <p>On your computer, visit 127.0.0.1:3000</p>
+      <p>Press <span class="code">CTRL + C</span> to exit the server.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">node index.js</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+  <h1>The req Object</h1>
+  <div class="text-section">
+    <p>The <span class="code">req</span> Object is half of the request/response cycle. It contains information about
+      incoming client requests.</p>
+  </div>
+
+
+  <h2>req.url</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p><span class="code">req.url</span> displays the path of the web page that accessed the website.</p>
+      <p>For example, if the app listens on port 3000, visiting the website (or localhost) displays just a forward slash
+        <span class="code">/</span> because this is the base URL of the app.
+      </p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+
+const server = http.createServer((req, res) => {
+  console.log(<span class="code-highlight">req.url</span>);
+});
+       
+server.listen(3000);</span></pre>
+    </div>
+  </section>
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Output</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">/</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>req.method</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p><span class="code">req.method</span> is the HTTP method of the request (GET, POST, PUT, DELETE).</p>
+      <p>For example, visiting the website (or localhost) displays <span class="code">/ GET</span>. This is the URL path
+        and the HTTP method used to request it.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+
+const server = http.createServer((req, res) => {
+  console.log(<span class="code-highlight">req.url, req.method</span>);
+});
+       
+server.listen(3000);</span></pre>
+    </div>
+  </section>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Output</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">/ GET</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+  <h2>req.headers</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p><span class="code">req.headers</span> displays the Headers requested from the client.</p>
+      <p>For example, visiting the website (or localhost) displays <span class="code">/ GET</span>, followed by the
+        Headers in JSON format.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+
+const server = http.createServer((req, res) => {
+  console.log(<span class="code-highlight">req.url, req.method, req.headers</span>);
+});
+       
+server.listen(3000);</span></pre>
+    </div>
+  </section>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Output</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">/ GET {
+  <span class="code-json-key">host:</span> 'localhost:3000',
+  <span class="code-json-key">connection:</span> 'keep-alive',
+  'cache-control': 'max-age=0',
+  'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"macOS"',
+  'upgrade-insecure-requests': '1',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+  <span class="code-json-key">accept:</span> 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+  'sec-fetch-site': 'none',
+  'sec-fetch-mode': 'navigate',
+  'sec-fetch-user': '?1',
+  'sec-fetch-dest': 'document',
+  'accept-encoding': 'gzip, deflate, br',
+  'accept-language': 'en-US,en;q=0.9,es;q=0.8,la;q=0.7'
+}</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+  <h1>The res Object</h1>
+  <div class="text-section">
+    <p>The <span class="code">res</span> Object is what the application sends after it receives an HTTP request.</p>
+  </div>
+
+
+  <h2>res.setHeader</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p> <span class="code">res.setHeader</span> sets a single Header value.</p>
+      <p>It consists of a name:value pair.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">res.setHeader('Content-Type', 'text/html');</span></pre>
+    </div>
+  </section>
+
+
+
+  <h2>res.write</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p> <span class="code">res.write</span> is used to write content (text, HTML, etc...) to the response.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">res.write('&lt;html&gt;');
+res.write('&lt;head&gt;&lt;title&gt;My First Page&lt;/title&gt;&lt;/head&gt;');
+res.write('&lt;body&gt;&lt;h1&gt;Hello from my Node.js Server!&lt;/h1&gt;&lt;/body&gt;');
+res.write('&lt;/html&gt;');</span></pre>
+    </div>
+  </section>
+
+
+  <h2>res.end</h2>
+  <div class="text-section">
+    <p> <span class="code">res.end</span> tells NodeJS to stop writing the response.</p>
+  </div>
+
+
+
+  <h3>Create an HTML response</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>......</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+
+const server = http.createServer((req, res) => {
+  console.log(req.url, req.method, req.headers);
+
+  <span class="code-highlight">res.setHeader('Content-Type', 'text/html');
+  res.write('&lt;html&gt;');
+  res.write('&lt;head&gt;&lt;title&gt;My First Page&lt;/title&gt;&lt;/head&gt;');
+  res.write('&lt;body&gt;&lt;h1&gt;Hello from my Node.js Server!&lt;/h1&gt;&lt;/body&gt;');
+  res.write('&lt;/html&gt;');</span>
+  <span class="code-comment">// Tell NodeJS we're finished creating the response. The response cannot be changed after this</span>
+  <span class="code-highlight">res.end();</span>
+});
+
+<span class="code-comment">// Start a process where NodeJS will keep listening for incoming requests</span>
+server.listen(3000);</span></pre>
+    </div>
+  </section>
+
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Webpage Output</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">Hello from my Node.js Server!</span></pre>
+    </div>
+  </section>
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Dev Tools Output</p>
+      <ol>
+        <li>Open Dev Tools.</li>
+        <li>Navigate to <span class="text-object">Network</span> tab and Reload the page.</li>
+        <li>Click the localhost file name.</li>
+        <li>Click the <span class="text-object">Response</span> tab to view the HTML created by <span
+            class="code">res.write</span>.</li>
+      </ol>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;My First Page&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Hello from my Node.js Server!&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</span></pre>
+    </div>
+  </section>
+
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Terminal Output</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output"><span class="code-json-key">/ GET {
+  host:</span> 'localhost:3000',
+  <span class="code-json-key">connection:</span> 'keep-alive',
+  'cache-control': 'max-age=0',
+  'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"macOS"',
+  'upgrade-insecure-requests': '1',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+  <span class="code-json-key">accept:</span> 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+  'sec-fetch-site': 'none',
+  'sec-fetch-mode': 'navigate',
+  'sec-fetch-user': '?1',
+  'sec-fetch-dest': 'document',
+  'accept-encoding': 'gzip, deflate, br',
+  'accept-language': 'en-US,en;q=0.9,es;q=0.8,la;q=0.7'
+  <span class="code-json-key">}
+/favicon.ico GET {
+  host:</span> 'localhost:3000',
+  <span class="code-json-key">connection:</span> 'keep-alive',
+  'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+  'sec-ch-ua-mobile': '?0',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+  'sec-ch-ua-platform': '"macOS"',
+  <span class="code-json-key">accept:</span> 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+  'sec-fetch-site': 'same-origin',
+  'sec-fetch-mode': 'no-cors',
+  'sec-fetch-dest': 'image',
+  <span class="code-json-key">referer:</span> 'http://localhost:3000/',
+  'accept-encoding': 'gzip, deflate, br',
+  'accept-language': 'en-US,en;q=0.9,es;q=0.8,la;q=0.7'
+}</span></pre>
+    </div>
+  </section>
+
+
+
+
+  <h1>Routing requests</h1>
+  <div class="text-section">
+    <p>Routing allows you to interact differently depending on the URL requested.</p>
+  </div>
+
+
+  <h2>Check if the URL ends in a /</h2>
+  <div class="text-section">
+    <p>This code checks if the base URL is visited which ends in a forward slash.</p>
+    <p>If so, an <span class="code">if</span> statement displays a contact form and all code below is not run.</p>
+    <p>If it's any other URL, the <span class="code">if</span> statement does not apply, so the code below is run and
+      <span class="text-object">Hello from my Node.js Server!</span> displays.
+    </p>
+  </div>
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <ol>
+        <li>Store the requested URL in a const.</li>
+        <li>Create an <span class="code">if</span> statement to check if the requested page ends in <span
+            class="code">/</span>. If so, create an HTML form.</li>
+        <li>Add <span class="code">return res.end();</span> to the end of the form to quit its execution and run the
+          code below it.</li>
+      </ol>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+
+const server = http.createServer((req, res) =&gt; {
+
+  <span class="code-comment">// Store the URL in a const</span>
+  <span class="code-highlight">const url = req.url;</span>
+
+  <span class="code-comment">// Check if the URL is ONLY a slash
+  // if so, create a form</span>
+  <span class="code-highlight">if (url === '/') {
+    res.write('&lt;html&gt;');
+    res.write('&lt;head&gt;&lt;title&gt;Enter Message&lt;/title&gt;&lt;head&gt;');
+    res.write('&lt;body&gt;&lt;form action="/message" method="POST"&gt;&lt;input type="text" name="message"&gt;&lt;button type="submit"&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/body&gt;');
+    res.write('&lt;/html&gt;');</span>
+    <span class="code-comment">// Add a return statement in front of res end.
+    // This is required to exit from this 'server' Anonymous FUNCTION.
+    // It quits this FUNCTION and ends execution of the rest of the code below, preventing the text "Hello from my NOde.js Server!"</span>
+    <span class="code-highlight">return res.end();
+  }</span>
+
+  res.setHeader('Content-Type', 'text/html');
+  res.write('&lt;html&gt;');
+  res.write('&lt;head&gt;&lt;title&gt;My First Page&lt;/title&gt;&lt;/head&gt;');
+  res.write('&lt;body&gt;&lt;h1&gt;Hello from my Node.js Server!&lt;/h1&gt;&lt;/body&gt;');
+  res.write('&lt;/html&gt;');
+  <span class="code-comment">// Tell NodeJS we're finished creating the response. The response cannot be changed after this</span>
+  res.end();
+});
+
+server.listen(3000);</span></pre>
+    </div>
+  </section>
+
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Webpage Output if localhost:3000 is visited</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">HTML form field with Send button. 
+Clicking it sends you to the /message page with output text "Hello from my NOde.js Server!"</span></pre>
+    </div>
+  </section>
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Webpage Output if localhost:3000/test is visited</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">Text "Hello from my NOde.js Server!"</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+  <h2>Write to file if URL ends in /message</h2>
+  <div class="text-section">
+    <p>This builds upon the code above.</p>
+    <p>If the form is filled out, the user is sent to the <span class="code">/message</span> page.</p>
+    <p>The code then writes to a file.</p>
+  </div>
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <ol>
+        <li>Save the <span class="text-object">fs</span> (file system) module to a variable. This allows you to write to
+          a file. <span class="code">const fs = require('fs');</span> </li>
+        <li>Store the request method in a const. <span class="code">const method = req.method;</span> </li>
+        <li>Create <span class="code">if</span> statement to check if the URL is <span class="code">/message</span> and
+          a <span class="text-object">POST</span> request was sent to it</li>
+        <li>Use <span class="code">fs.writeFileSync()</span> to create and write to a new file.</li>
+        <li>Create a Redirect.
+          <ul>
+            <li>Use <span class="code">res.statusCode</span> to set the status code to <span
+                class="text-object">302</span>.</li>
+            <li>Use <span class="code">res.setHeader</span> set the location to redirect to.</li>
+          </ul>
+        </li>
+
+
+      </ol>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+<span class="code-highlight">const fs = require('fs');</span>  
+
+const server = http.createServer((req, res) =&gt; {
+
+  <span class="code-comment">// Store the URL in a const</span>
+  const url = req.url;
+  <span class="code-comment">// Store method in a const</span>
+  <span class="code-highlight">const method = req.method;</span>
+
+  <span class="code-comment">// Check if the URL is ONLY a slash
+  // if so, create a form</span>
+  if (url === '/') {
+    res.write('&lt;html&gt;');
+    res.write('&lt;head&gt;&lt;title&gt;Enter Message&lt;/title&gt;&lt;head&gt;');
+    res.write('&lt;body&gt;&lt;form action="/message" method="POST"&gt;&lt;input type="text" name="message"&gt;&lt;button type="submit"&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/body&gt;');
+    res.write('&lt;/html&gt;');
+    <span class="code-comment">// Add a return statement in front of res end.
+    // This is required to exit from this 'server' Anonymous FUNCTION.
+    // It quits this FUNCTION and ends execution of the rest of the code below, preventing the text "Hello from my NOde.js Server!"</span>
+    return res.end();
+  }
+
+
+  <span class="code-comment">// If URL is /message</span>
+  <span class="code-highlight">if (url === '/message' && method === 'POST') {
+    <span class="code-comment">// write a new file. 2 args: TITLE, CONTENT</span>
+    fs.writeFileSync('message.txt', 'DUMMY');
+    <span class="code-comment">// Create redirect</span>
+    res.statusCode = 302;
+    <span class="code-comment">// Set location to redirect to</span>
+    res.setHeader('Location', '/');
+    return res.end();
+  }</span>
+
+
+  res.setHeader('Content-Type', 'text/html');
+  res.write('&lt;html&gt;');
+  res.write('&lt;head&gt;&lt;title&gt;My First Page&lt;/title&gt;&lt;/head&gt;');
+  res.write('&lt;body&gt;&lt;h1&gt;Hello from my Node.js Server!&lt;/h1&gt;&lt;/body&gt;');
+  res.write('&lt;/html&gt;');
+  <span class="code-comment">// Tell NodeJS we're finished creating the response. The response cannot be changed after this</span>
+  res.end();
+});
+
+server.listen(3000);</span></pre>
+    </div>
+  </section>
+
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">Dev Tools Output</p>
+      <ol>
+        <li>Open Dev Tools.</li>
+        <li>Navigate to <span class="text-object">Network</span> tab and Reload the page.</li>
+        <li>Add text to the form.</li>
+        <li>Click Submit.</li>
+      </ol>
+      <p>Under the <span class="text-object">Status</span> column, you'll see the <span class="text-object">302</span>
+        redirect.</p>
+      <p>The page was also redirected back to <span class="code">/</span>.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <img src="../../_img/dev-tools-status-code-302.png">
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1>Reading Data</h1>
+  <div class="text-section">
+    <p>Incoming data is sent as a stream of data.</p>
+    <p>The stream is an ongoing process.</p>
+    <p>NodeJS reads the request in chunks/parts of data. This allows you to start working on the chunks/parts before the
+      response is fully read.</p>
+    <p>A Buffer is used to work with these chunks/parts of data.</p>
+    <img src="../../_img/nodejs-chunks-and-buffers.png" width="600px">
+  </div>
+
+
+<h2>Create a Buffer for the incoming stream of data</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <ol>
+        <li>Store the requested URL in a const.</li>
+        <li>Create an <span class="code">if</span> statement to check if the requested page ends in <span
+            class="code">/</span>. If so, create an HTML form.</li>
+        <li>Add <span class="code">return res.end();</span> to the end of the form to ßquit its execution and run the
+          code below it.</li>
+      </ol>
+    </div>
+    <div class="code-block-section-w60">
+<pre class="example"><span class="code-nodejs">const http = require('http');
+const fs = require('fs');  
+const server = http.createServer((req, res) =&gt; {
+
+  <span class="code-comment">// Store the URL in a const</span>
+  const url = req.url;
+  <span class="code-comment">// Store method in a const</span>
+  const method = req.method;
+
+  <span class="code-comment">// Check if the URL is ONLY a slash
+  // if so, create a form</span>
+  if (url === '/') {
+    res.write('&lt;html&gt;');
+    res.write('&lt;head&gt;&lt;title&gt;Enter Message&lt;/title&gt;&lt;head&gt;');
+    res.write('&lt;body&gt;&lt;form action="/message" method="POST"&gt;&lt;input type="text" name="message"&gt;&lt;button type="submit"&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/body&gt;');
+    res.write('&lt;/html&gt;');
+    <span class="code-comment">// Add a return statement in front of res end.
+    // This is required to exit from this 'server' Anonymous FUNCTION.
+    // It quits this FUNCTION and ends execution of the rest of the code below, preventing the text "Hello from my NOde.js Server!"</span>
+    return res.end();
+  }
+
+  <span class="code-comment">// If URL is /message</span>
+  if (url === '/message' && method === 'POST') {
+    <span class="code-highlight"><span class="code-comment">// Create a const to work with the data
+    // This is an empty Array</span>
+    const body = [];
+    <span class="code-comment">// Listent to the data event. This event is fired whenever a new chunk is ready to be read.
+    // The 2nd arg is the function that should be executed for every data event
+    // Use the param chunk to work with the data</span>
+    req.on('data', (chunk) =&gt; {
+      <span class="code-comment">// Push a new element into the 'body' Array</span>
+      console.log(chunk);
+      body.push(chunk);
+    });
+
+    <span class="code-comment">// Add the 'end' Event Listener. This is fired after the incoming data is complete.
+    // The 2nd arg is the function that should be executed</span>
+    req.on('end', () =&gt; {
+      <span class="code-comment">// Buffer the chunks to work with them. This adds all chunks into 'body'.
+      // Use the Global Buffer Object 
+      // Finally use toString() to convert it to text</span>
+      const parseBody = Buffer.concat(body).toString();
+      console.log(parseBody);
+    });</span>
+
+    // write a new file. 2 args: TITLE, CONTENT
+    fs.writeFileSync('message.txt', 'DUMMY');
+    // Create redirect
+    res.statusCode = 302;
+    // Set location to redirect to
+    res.setHeader('Location', '/');
+    return res.end();
+  }
+
+
+  res.setHeader('Content-Type', 'text/html');
+  res.write('&lt;html&gt;');
+  res.write('&lt;head&gt;&lt;title&gt;My First Page&lt;/title&gt;&lt;/head&gt;');
+  res.write('&lt;body&gt;&lt;h1&gt;Hello from my Node.js Server!&lt;/h1&gt;&lt;/body&gt;');
+  res.write('&lt;/html&gt;');
+  // Tell NodeJS we're finished creating the response. The response cannot be changed after this
+  res.end();
+});
+
+server.listen(3000);
+        </span></pre>
+    </div>
+  </section>
+
+
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p class="output-heading">View output</p>
+      <ol><li>Run the file.</li>
+      <li>Visit <span class="text-object">127.0.0.1:3000</span> in a browser.</li>
+      <li>Enter text and submit.</li>
+      <li>View the terminal that's already open.
+        <img src="../../_img/nodejs-buffer-data.png" width="600px">
+        
+        You'll see the Buffer data as a string of numbers followed by the text that was input into the form. You can only work with the actual text data.</li>
+      </ol>
+      <p>This is a key:value pair. The Key is <span class="code">message</span>, which is the name of the input field in the form.</p>
+      <p>The Value is what the user entered into the form.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">..............</span></pre>
+    </div>
+  </section>
+
+
+  <p>CONTINUE 9 min</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <h1>Advanced Stuff</h1>
+  <h2>Display URL path</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>Run the file. Visit <span class="text-object">127.0.0.1:8000</span> in a browser.</p>
+      <p>At first you should see the overview text <span class="code">This is the overview page</span>.</p>
+      <p>Add <span class="text-object">/product</span> to the URL to see <span class="code">This is the product</span>.
+      </p>
+      <p>Add a final <span class="code">else</span> statement if any other URL is entered. You can see the 404 error in
+        the <span class="text-object">Network</span> tab of Dev Tools.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const server = http.createServer((req, res) => {
+<span class="code-comment">// save req.url into a var </span>
+<span class="code-highlight">const pathName = req.url;
+
+<span class="code-comment">// if you're on the homepage or overview page </span>
+if (pathName === '/' || pathName === '/overview') {
+  res.end('This is the overview page');
+  <span class="code-comment">// else if you're on the product page </span>
+} else if (pathName === '/product') {
+  res.end('This is the product');
+} else {
+  res.writeHead(404)
+  res.end('Page not found')
+}</span>
+});
+
+server.listen(8000, '127.0.0.1', () => {
+console.log('Listening to requests on port 8000');
+});</span></pre>
+    </div>
+  </section>
+
+</body>
+
+</html>

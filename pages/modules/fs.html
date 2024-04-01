@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="../../_css/styles.css">
+
+  <title>fs</title>
+</head>
+
+<body>
+
+
+  <nav class="navbar">
+    <a href="../../index.html">Back to homepage</a>
+    <a class="nav-page nav-active">fs</a>
+  </nav>
+
+
+  <h1>fs Module</h1>
+  <div class="text-section">
+    <p>The fs (file system) module provides functions to reading and writing data to the file system.</p>
+    <p>Store the result of the <span class="code">require</span> function in a variable.</p>
+    <p>Use <span class="code">require</span> to reference the module.</p>
+    <p>This returns an Object with functions you can use.</p>
+
+    <ul>
+      <li><a href="https://nodejs.org/dist/latest-v16.x/docs/api/fs.html" target="_blank">fs module documentation</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <h2>require statement</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This stores the <span class="code">fs</span> module into a variable.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const fs = require('fs')</span></pre>
+    </div>
+  </section>
+
+
+
+  <h2>readFileSync()</h2>
+  <h3>Read contents of a file</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This reads files synchronously.</p>
+      <p>This function takes 2 arguments.</p>
+      <ul>
+        <li>The path to the file</li>
+        <li>the character encoding.</li>
+      </ul>
+      <p>This example reads a file titled input.txt and prints its content.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const fs = require('fs')
+const textIn = <span class="code-highlight">fs.readFileSync('./txt/input.txt', 'utf-8')</span>
+
+console.log(textIn)</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+
+  <h2>writeFileSync()</h2>
+  <h3>Write content to a file</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This reads files synchronously.</p>
+      <p>This function takes 2 arguments.</p>
+      <ul>
+        <li>The path to the file</li>
+        <li>Data to write</li>
+      </ul>
+      <p>This example creates a new file titled <span class="code">output.txt</span> with the contents of the <span
+          class="code">textOut</span> variable.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const fs = require('fs')  
+const textOut = `This is what we know about the avocado: ${textIn}.n\Created on ${Date.now()}`
+<span class="code-highlight">fs.writeFileSync('./txt/output2.txt', textOut)</span>
+
+console.log('File written')</pre>
+    </div>
+  </section>
+
+
+
+
+
+
+  <h1>Asynchronous examples</h1>
+
+  <h2>readFile()</h2>
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This function takes 3 arguments.</p>
+      <ul>
+        <li>The path to the file</li>
+        <li>the character encoding.</li>
+        <li>A callback function</li>
+      </ul>
+      <p>The callback function is called with 2 arguments.</p>
+      <ul>
+        <li>err</li>
+        <li>data</li>
+      </ul>
+      <p>The contents of the file <span class="text-object">start.txt</span> is the text <span
+          class="text-object">read-this</span>.</p>
+      <p>This example first prints <span class="text-object">This prints first</span> because the async function runs in
+        the background.</p>
+      <p>When it's finished, the file is read and <span class="text-object">read-this</span> prints.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const fs = require('fs')
+
+<span class="code-highlight">fs.readFile('./txt/start.txt', 'utf-8', (err, data) => { </span>
+  console.log(data);
+<span class="code-highlight">}); </span>
+
+console.log("This prints first")</span></pre>
+
+    </div>
+  </section>
+
+
+
+  <section class="output-section-container">
+    <h5>Output</h5>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-output">This prints first
+read-this</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <h2>writeFile()</h2>
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This uses writeFile() to create a file, but it's used as a callback to inside the first function.</p>
+      <p>Since there is no data, you can just use err by itself.</p>
+      <p><span class="text-object">start.txt</span> contains the text <span class="text-object">read-this</span>.</p>
+      <p>The next line uses a template string to read the existing file named <span
+          class="text-object">read-this.txt</span>.</p>
+      <p>writeFile() is then called as a callback function. It creates a new file titled final.txt with the contents of
+        <span class="text-object">read-this.txt</span>.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">fs.readFile('./txt/start.txt', 'utf-8', (err, data1) =&gt; {
+  fs.readFile(`./txt/${data1}.txt`, 'utf-8', (err, data2) => {
+
+    <span class="code-highlight">fs.writeFile('./txt/final.txt', `${data2}`, 'utf-8', err => { </span>
+      console.log('Your file has been written');
+    <span class="code-highlight">}); </span>
+  });
+});</span></pre>
+
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

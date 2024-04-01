@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="../../_css/styles.css">
+
+  <title>Importing</title>
+</head>
+
+<body>
+
+
+  <nav class="navbar">
+    <a href="../../index.html">Back to homepage</a>
+    <a class="nav-page nav-active">Importing</a>
+  </nav>
+
+
+
+
+
+
+
+  <h1>Create and Import a module</h1>
+
+  <h2>Create the module</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>The replaceTemplate function could be added as a module so you can use it in multiple files.</p>
+      <p>In Node.js, all files are treated as a module.</p>
+      <p>Create a new file named <span class="code">replaceTemplate</span>. Place the function code within it.</p>
+      <p>To export it, add <span class="code">module.exports</span> where the variable name used to be.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs"><span class="code-highlight">module.exports</span> = (temp, product) => {
+let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName);
+output = output.replace(/{%IMAGE%}/g, product.image);
+output = output.replace(/{%PRICE%}/g, product.price);
+output = output.replace(/{%FROM%}/g, product.from);
+output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
+output = output.replace(/{%QUANTITY%}/g, product.quantity);
+output = output.replace(/{%DESCRIPTION%}/g, product.description);
+output = output.replace(/{%ID%}/g, product.id);
+
+if(!product.organic) output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
+return output;}</span></pre>
+    </div>
+  </section>
+
+
+
+  <h2>Import the module</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>Add a <span class="code">require</span> at the top of your index.js file.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre
+        class="example"><span class="code-nodejs">const replaceTemplate = require('./modules/replaceTemplate');</span></pre>
+    </div>
+  </section>
+
+
+
+
+  <h2>Import a module you installed</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>You just need to require it like any other Module. Node.js will then locate it in the <span class="text-object">node_modules</span> directory.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre
+        class="example"><span class="code-nodejs">const sluify = require('slugify')</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
