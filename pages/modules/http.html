@@ -686,26 +686,83 @@ server.listen(3000);</span></pre>
   </div>
 
 
-<h2>Create a Buffer for the incoming stream of data</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Create a Buffer for the incoming stream of data</h2>
   <section class="code-section-container">
     <div class="code-text-section">
       <ol>
-        <li>Store the requested URL in a const.</li>
-        <li>Create an <span class="code">if</span> statement to check if the requested page ends in <span
-            class="code">/</span>. If so, create an HTML form.</li>
-        <li>Add <span class="code">return res.end();</span> to the end of the form to ßquit its execution and run the
-          code below it.</li>
+        <li>Create a const named <span class="text-object">body</span> to work with the data you'll receive from the
+          form.
+          <ul>
+            <li>This const is an empty Array. For example: <span class="code">const body = [];</span></li>
+          </ul>
+        </li>
+        <li>Create an Event Listener for incoming data using the <span class="code">.on()</span> method. This example
+          listens to the <span class="text-object">data</span> event.
+          <ul>
+            <li>For example: <span class="code">req.on('data', (chunk)</span></li>
+            <li>This event is fired whenever a new chunk is ready to be read.</li>
+            <li>The 2nd arg <span class="code">(chunk)</span> is the function that should be executed for every data
+              event.</li>
+          </ul>
+        </li>
+        <li>Use the <span class="code">.push()</span> method to push data chunks into the <span
+            class="text-object">body</span> Array.
+          <ul>
+            <li>For example: <span class="code">body.push(chunk);</span></li>
+          </ul>
+          NodeJS will continue pushing data until it's done getting all data.
+        </li>
+        <li>Register a new Event Listener for the <span class="text-object">end</span> event.
+          <ul>
+            <li>For example: <span class="code">req.on('data', (chunk) =&gt; {</span></li>
+          </ul>
+ This is fired after it's finished parsing the incoming request data. The 2nd arg is the function that should be executed.
+        </li>
+
+
+        <li>Buffer the chunks using the Global <span class="text-object">Buffer</span> Object. This adds all chunks from the <span class="text-object">body</span> Array.
+          <ul>
+            <li>For example: <span class="code">Buffer.concat(body)</span></li>
+          </ul>
+         Finally use <span class="text-object">toString()</span> to convert it into text. Then assigned to a new const named <span class="text-object">parseBody</span>.
+         <ul>
+          <li>For example: <span class="code">const parseBody = Buffer.concat(body).toString();</span></li>
+        </ul>
+      </li>
       </ol>
     </div>
-    <div class="code-block-section-w60">
-<pre class="example"><span class="code-nodejs">const http = require('http');
-const fs = require('fs');  
-const server = http.createServer((req, res) =&gt; {
 
+
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+const fs = require('fs');  
+
+const server = http.createServer((req, res) =&gt; {
   <span class="code-comment">// Store the URL in a const</span>
   const url = req.url;
   <span class="code-comment">// Store method in a const</span>
   const method = req.method;
+
 
   <span class="code-comment">// Check if the URL is ONLY a slash
   // if so, create a form</span>
@@ -716,16 +773,19 @@ const server = http.createServer((req, res) =&gt; {
     res.write('&lt;/html&gt;');
     <span class="code-comment">// Add a return statement in front of res end.
     // This is required to exit from this 'server' Anonymous FUNCTION.
-    // It quits this FUNCTION and ends execution of the rest of the code below, preventing the text "Hello from my NOde.js Server!"</span>
+    // It quits this FUNCTION and ends execution of the rest of the code below, preventing the text "Hello from my Node.js Server!"</span>
     return res.end();
   }
+
 
   <span class="code-comment">// If URL is /message</span>
   if (url === '/message' && method === 'POST') {
     <span class="code-highlight"><span class="code-comment">// Create a const to work with the data
     // This is an empty Array</span>
     const body = [];
-    <span class="code-comment">// Listent to the data event. This event is fired whenever a new chunk is ready to be read.
+
+    <span class="code-comment">// Create an Event Listener using the .on() method - req.on()
+    // Listen to the data event. This event is fired whenever a new chunk is ready to be read.
     // The 2nd arg is the function that should be executed for every data event
     // Use the param chunk to work with the data</span>
     req.on('data', (chunk) =&gt; {
@@ -734,7 +794,7 @@ const server = http.createServer((req, res) =&gt; {
       body.push(chunk);
     });
 
-    <span class="code-comment">// Add the 'end' Event Listener. This is fired after the incoming data is complete.
+    <span class="code-comment">// Add the 'end' Event Listener. This is fired after NodeJS finishes parsing the incoming data
     // The 2nd arg is the function that should be executed</span>
     req.on('end', () =&gt; {
       <span class="code-comment">// Buffer the chunks to work with them. This adds all chunks into 'body'.
@@ -744,11 +804,11 @@ const server = http.createServer((req, res) =&gt; {
       console.log(parseBody);
     });</span>
 
-    // write a new file. 2 args: TITLE, CONTENT
+    <span class="code-comment">// write a new file. 2 args: TITLE, CONTENT</span>
     fs.writeFileSync('message.txt', 'DUMMY');
-    // Create redirect
+    <span class="code-comment">// Create redirect</span>
     res.statusCode = 302;
-    // Set location to redirect to
+    <span class="code-comment">// Set location to redirect to</span>
     res.setHeader('Location', '/');
     return res.end();
   }
@@ -768,20 +828,23 @@ server.listen(3000);
     </div>
   </section>
 
-
-
   <section class="code-section-container">
+    
     <div class="code-text-section">
-      <p class="output-heading">View output</p>
-      <ol><li>Run the file.</li>
-      <li>Visit <span class="text-object">127.0.0.1:3000</span> in a browser.</li>
-      <li>Enter text and submit.</li>
-      <li>View the terminal that's already open.
-        <img src="../../_img/nodejs-buffer-data.png" width="600px">
-        
-        You'll see the Buffer data as a string of numbers followed by the text that was input into the form. You can only work with the actual text data.</li>
+      <h3>View output</h3>
+      <ol>
+        <li>Run the file.</li>
+        <li>Visit <span class="text-object">127.0.0.1:3000</span> in a browser.</li>
+        <li>Enter text and submit.</li>
+        <li>View the terminal that's already open.
+          <img src="../../_img/nodejs-buffer-data.png" width="600px">
+
+          You'll see the Buffer data as a string of numbers followed by the text that was input into the form. You can
+          only work with the actual text data.
+        </li>
       </ol>
-      <p>This is a key:value pair. The Key is <span class="code">message</span>, which is the name of the input field in the form.</p>
+      <p>This is a key:value pair. The Key is <span class="code">message</span>, which is the name of the input field in
+        the form.</p>
       <p>The Value is what the user entered into the form.</p>
     </div>
     <div class="code-block-section-w60">
@@ -790,7 +853,110 @@ server.listen(3000);
   </section>
 
 
-  <p>CONTINUE 9 min</p>
+
+
+
+
+
+
+
+
+
+
+  <h2>Write user form input to a file</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <ol>
+        <li>Create const named <span class="text-object">message</span> to store the user's input.</li>
+        <li>Assign to this const the value of <span class="text-object">parseBody</span>.
+          <ul>
+            <li>Use the <span class="code">split()</span> method to split the contents of this value on the equals sign.</li>
+               <li>Then extract the element with the index of 1 (which is the value on the right of the equals sign).</li>
+          </ul>
+<li>Move <span class="code">fs.writeFileSync('message.txt', message);</span> inside this function so it executes when the function is called.</li>
+      </ol>
+    </div>
+
+
+
+    <div class="code-block-section-w60">
+<pre class="example"><span class="code-nodejs">const http = require('http');
+const fs = require('fs');  
+
+const server = http.createServer((req, res) =&gt; {
+
+  const url = req.url;
+  const method = req.method;
+
+  if (url === '/') {
+    res.write('&lt;html&gt;');
+    res.write('&lt;head&gt;&lt;title&gt;Enter Message&lt;/title&gt;&lt;head&gt;');
+    res.write('&lt;body&gt;&lt;form action="/message" method="POST"&gt;&lt;input type="text" name="message"&gt;&lt;button type="submit"&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/body&gt;');
+    res.write('&lt;/html&gt;');
+    return res.end();
+  }
+
+  if (url === '/message' && method === 'POST') {
+    const body = [];
+    req.on('data', (chunk) =&gt; {
+    console.log(chunk);
+    body.push(chunk);
+  });
+
+req.on('end', () =&gt; {
+  const parseBody = Buffer.concat(body).toString();
+  console.log(parseBody);
+  
+  <span class="code-comment">// Create const to take parseBody and split it on the equals sign
+  // Then extract the element with the index of 1 (which is the value on the right of the equals sign)</span>
+  <span class="code-highlight">const message = parseBody.split('=')[1];</span>
+  <span class="code-comment">// Move this line from below so it executes within this function
+  // write a new file. 2 args: TITLE, CONTENT
+  // Add 'message' to store the value the was typed into the form</span>
+  <span class="code-highlight">fs.writeFileSync('message.txt', message);</span>
+});
+  
+    res.statusCode = 302;
+    res.setHeader('Location', '/');
+    return res.end();
+  }
+
+  res.setHeader('Content-Type', 'text/html');
+  res.write('&lt;html&gt;');
+  res.write('&lt;head&gt;&lt;title&gt;My First Page&lt;/title&gt;&lt;/head&gt;');
+  res.write('&lt;body&gt;&lt;h1&gt;Hello from my Node.js Server!&lt;/h1&gt;&lt;/body&gt;');
+  res.write('&lt;/html&gt;');
+  res.end();
+});
+
+server.listen(3000);
+</span></pre>
+    </div>
+  </section>
+
+
+    <div class="text-section">
+      <h3>View output</h3>
+      <ol>
+        <li>Run the file.</li>
+        <li>Visit <span class="text-object">127.0.0.1:3000</span> in a browser.</li>
+        <li>Enter text and submit.</li>
+        <li>A new file is created named <span class="text-object">message.txt</span> containing the value that was entered into the form.</li>
+      </ol>      
+    </div>   
+
+
+
+
+
+
+
+
+
+<h3>Continue 17:23</h3>
+
+
+
 
 
 
