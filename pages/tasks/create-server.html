@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" href="../../_css/styles.css">
+
+  <title>Create a Server</title>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="../../index.html">Back to homepage</a>
+    <a class="nav-page nav-active">http</a>
+  </nav>
+
+
+
+
+  <h1>Creating a server</h1>
+
+  <h2>http Module</h2>
+
+  <div class="text-section">
+    <p>The <span class="code">http</span> module allows you to build an http server.</p>
+
+    <ul>
+      <li><a href="https://nodejs.org/dist/latest-v16.x/docs/api/http.html" target="_blank">http module
+          documentation</a>
+      </li>
+    </ul>
+  </div>
+
+
+
+  <h2>Store module in a variable</h2>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This stores the <span class="code">http</span> module into a variable. This allows it to be easily accessed.
+      </p>
+      <p>You must use the <span class="code">require()</span> method to include the module.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre
+        class="example"><span class="code-nodejs">const <span class="code-highlight">http</span> = require('http');</span></pre>
+    </div>
+  </section>
+
+
+
+
+  <h2>The createServer() method</h2>
+
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p> <span class="code">createServer</span> is a method of the <span class="code">http</span> module.</p>
+      <ul>
+        <li><a href="https://nodejs.org/docs/latest/api/http.html#httpcreateserveroptions-requestlistener"
+            target="_blank">createServer() method documentation</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http')
+        
+const server = http.<span class="code-highlight">createServer()</span></span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p> <span class="code">createServer</span> takes a callback function that is fired each time a request is made to
+        the server.</p>
+      <p>This callback function has access to two <a href="../objects/object-req-res.html" target="_blank">Objects</a>.</p>
+      <ul>
+        <li>request object (<span class="code">res</span>): This receives a request of type <span
+            class="code">IncomingMessage</span></li>
+        <li>response object (<span class="code">res</span>): This is used to return a response to who sent the request
+        </li>
+      </ul>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http')
+        
+const server = http.createServer(<span class="code-highlight">function (req, res)</span> {</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+  <h2>2 ways to create a server</h2>
+
+  
+  <h3>Option #1: Anonymous Function</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This passes the function whenever a request is made to the server.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const server = http.createServer(<span class="code-highlight">function</span> (req, res) {
+  <span class="code-comment">// send back request to the client </span>
+  res.end('Hello from the server');
+});</span></pre>
+    </div>
+  </section>
+
+
+  <h3>Option #2: Arrow Function</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>This works the same way but is written using an Arrow Function.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const server = http.createServer((req, res) <span class="code-highlight">=></span> {
+  <span class="code-comment">// send back request to the client </span>
+  res.end('Hello from the server');
+});</span></pre>
+    </div>
+  </section>
+
+
+
+
+  <div class="notebox-note">
+
+  <div class="notebox-note-heading">res.end()</div>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>Servers are created using a function.</p>
+      <p>Each function ends with <span class="code">res.end()</span>, which is part of the <span class="code">res()</span> Object.</p>
+      <p>It tells NodeJS to stop writing the response.</p>
+    </div>
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs"><span class="code-highlight">res.end</span>('Hello from the server');</span></pre>
+    </div>
+  </section>
+</div>
+
+
+
+
+
+
+
+
+
+  <h2>Listen to response with listen()</h2>
+
+  <h3>Full code example</h3>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p> <span class="code">server.listen()</span> uses the <span class="code">server</span> OBJECT and <span
+        class="code">listen</span> METHOD to listen on a port after starting the HTTP server.</p>
+
+    <ul>
+      <li><a href="https://nodejs.org/api/http.html#serverlisten" target="_blank">server.listen() method
+          documentation</a>
+      </li>
+    </ul>
+ 
+     <p>This gets access to two Objects.</p>
+      <ul>
+        <li>port</li>
+        <li>host (optional)</li>
+      </ul>
+      <p>This example listens on port 3000 at localhost.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">const http = require('http');
+
+const server = http.createServer((req, res) => {
+  console.log(req);
+});
+        
+server.<span class="code-highlight">listen(3000);</span></span></pre>
+    </div>
+  </section>
+
+
+
+
+  <h1>Run the server</h1>
+  <section class="code-section-container">
+    <div class="code-text-section">
+      <p>Run the file to start the server using the <span class="code">node</span> command.</p>
+      <p>On your computer, visit 127.0.0.1:3000</p>
+      <p>Press <span class="code">CTRL + C</span> to exit the server.</p>
+    </div>
+
+    <div class="code-block-section-w60">
+      <pre class="example"><span class="code-nodejs">node index.js</span></pre>
+    </div>
+  </section>
+
+
+
+
+
+</body>
+
+</html>
